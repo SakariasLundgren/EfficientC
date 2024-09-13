@@ -1,0 +1,379 @@
+\documentclass{article}
+\usepackage[portrait,
+           paperwidth=210mm,
+           paperheight=297mm,
+           textwidth=160mm,
+           textheight=240mm]{geometry}
+
+\usepackage[charter]{mathdesign}
+\usepackage{bera}
+\author{Jonas Skeppstedt}
+
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\usepackage{url}
+
+\newlength{\specmargin}
+\setlength{\specmargin}{\parindent}
+
+
+
+\title{\large \bf Example oral exam questions for EDAG01 Efficient C 2020}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+\item No more example questions will be added to this file for the 2020 course.
+\item The questions are not organized in any way but added to the end as I create them so you can refer to their number e.g. in the discord channel.
+\item The purpose of the questions is to illustrate what kind of questions might be asked and should not be viewed
+as a complete set of questions for the oral exams.
+\item The most common question in the oral exam will be that I ask a follow-up question to your most recent reply, such as ''why is it so?''
+\item Above all, don't be nervous for not passing the oral exam. If you have done the labs, the probability that you will pass is quite high.
+\end{itemize}
+\begin{enumerate}
+\item What is the difference between \verb.a. and \verb.b. below? What can you do with them and when is the memory for the arrays deallocated?
+
+\begin{verbatim}
+int* f(int n)
+{
+        int*            a = calloc(n, sizeof(int));
+        int             b[n];
+}
+\end{verbatim}
+
+\item Suppose you have a single-linked list that represents a set such as $h$ in {\em intopt}, that the nodes have a field {\em next}, when $h$ is empty, $h$ is a null pointer, and you would like to write a function $f$ to add a node $q$ to the beginning of the list (so that the $h$ in $g$ below points to it), how would you call $f$ in C (especially the arguments) and how could $f$ be implemented? $f$ should have two parameters $h$ and~$p$ where $p$ has type \verb.node_t* p. and you should decide the type of the parameter $h$.
+
+
+\begin{verbatim}
+typedef struct node_t   node_t;
+
+struct node_t {
+        node_t*         next;
+        /* other declarations. */
+};
+
+double g(void)
+{
+       node_t*         h;
+       node_t*         q;
+
+       /* more code. */
+
+       /* call f somehow. */
+}
+\end{verbatim}
+
+\item As the previous question but you would like to put $q$ at the end of the list instead.
+
+\item Is this valid C and what does it mean?
+\begin{verbatim}
+struct {
+        int     a : 1;
+} s;
+\end{verbatim}
+\item Why do C compilers use a stack pointer in the machine code they produce? Is it always used in every function
+or do some functions not need it?
+\item Does pipelining reduce the number of clock cycles to execute
+an instruction, or what is the purpose of pipelining?
+
+\item What is the purpose of a reorder buffer in a superscalar processor and what is it?
+
+\item What is the purpose of rename registers in a superscalar processor?
+\item What is the purpose of branch prediction in a superscalar processor?
+\item What can  a reasonable cache block size be?
+\item What is meant by cache associativity and why is that useful?
+\item Why are not fully associative data caches used?
+\item Which two types of locality of references are exploited with
+caches to reduce the execution times of programs? Give examples of
+C code fragments in which each type of locality can be exploited.
+
+\item What does {\tt \#undef} mean?
+\item What does {\tt \#error} mean?
+\item What does {\tt \#ifndef} mean?
+\item What does {\tt defined} mean? (yes, correct spelling --- I do not refer to {\tt \#define})
+\item What does {\tt \#\#} mean?
+\item What does {\tt volatile} mean? 
+\item What does {\tt restrict} mean? 
+\item What does {\tt continue} mean? 
+\item What does {\tt case} mean? 
+\item What does {\tt default} mean? 
+\item What does  designated initializer mean? Give an example?
+\item What does  implementation-defined behavior mean? Give an example.
+\item What does  unspecified behavior mean? Give an example.
+\item What does  undefined behavior mean? Give an example.
+\item What does  sequence point mean? Give an example.
+\item What does  static storage duration mean?
+\item What does  integer promotion mean?
+\item What does  the operator \verb!? :! do?
+\item How can you trigger a compile time error if your assumption about the size of an int does not hold? (hint: see previous question)
+\item What does  internal linkage mean?
+\item What does  the operator \verb!~! do?
+\item What does  the operator \verb!&! do?
+\item What does  the operator \verb!|! do?
+\item What does  the operator \verb!>>! do?
+\item What does  the operator \verb!<<! do?
+\item What is the difference between \verb!a = ++b! and \verb!a = b++! ?
+\item What is the return value of the function below?
+\begin{verbatim}
+#include <stdbool.h>
+int f()
+{
+        bool   p = 1;
+
+        return p + 1;
+}
+\end{verbatim}
+\item What is a compound literal?
+\item What is the type of {\tt 1}? 
+\item What is the type of {\tt 1ULL}? 
+\item What is the type of {\tt 1.0}? 
+\item What what is wrong with {\tt 099}?
+\item What does {\tt alloca} do? 
+\item Can you add two pointers? If so, are there any restrictions?
+\item Can you subtract two pointers? If so, are there any restrictions?
+\item Can you add an integer and a pointer (\verb!i+p!), and what would that mean?
+\item Can you subtract an integer from a pointer (\verb!p-i!), and what would that mean?
+\item Can you subtract a pointer from an integer (\verb!i-p!), and what would that mean?
+\item What is dangerous with using a variable length array with a size $n$ where $n$ is read from input. Why is that not such a big problem when using \verb.malloc.?
+
+\item Why is {\tt alloca} different (in addition to {\tt alloca} not being ISO C) from using the VLA in the following loop? 
+\begin{verbatim}
+void f(int n)
+{
+        int     i;
+        int*    p;
+
+        for (i = 0; i < n; i += 1) {
+                int     a[i];
+                p = alloca(i * sizeof(int));
+                /* use a and p here... */
+        }
+}
+\end{verbatim}
+
+\item Are there any restrictions on how \verb.inline. may be used and if so why?
+\item What do {\tt setjmp} and {\tt longjmp} do?
+
+\item Which three of the following lines always work, which may crash, and why?
+\begin{verbatim}
+int main()
+{
+        char*   s = "hello"; 
+        char    t[] = "hello"; 
+
+        s[0] = 'H';
+        t[0] = 'H';
+}
+\end{verbatim}
+
+\item Is returning a value {\tt x} from {\tt main} equivalent to calling {\tt exit(x)} and why?
+
+\item Can you copy a struct with an assignment statement like this?
+\begin{verbatim}
+struct { int a; } s, t;
+
+void f()
+{
+        s = t;
+}
+\end{verbatim}
+\item Can you copy an array with an assignment statement like this?
+\begin{verbatim}
+int     a[10];
+int     b[10];
+
+void f()
+{
+        a = b;
+}
+\end{verbatim}
+
+
+\item What happens, if anything, to the elements of the array {\tt a} in the statement in {\tt f} ?
+\begin{verbatim}
+int     a[10];
+int     b[10];
+int*    p = a;
+int*    q = b;
+
+void f()
+{
+        p = q;
+}
+\end{verbatim}
+
+\item Why is the following code invalid C and would it, according to ISO C, help to use {\tt const}?
+\begin{verbatim}
+int     n = 10;
+int     a[n];
+
+int main()
+{
+       return 0;       
+}
+\end{verbatim}
+
+\newpage
+\item Why does the code below, which tries to read a number from stdin, not work?
+\begin{verbatim}
+#incluce <stdio.h>
+
+#define ISDIGIT(c)      ((c) >= '0' && (c) <= '9')
+
+int main()
+{
+        int     num;    // value of number.
+        int     c;      // a char.
+
+        num = 0;
+
+        while (ISDIGIT(c = getchar()))
+                num = 10 * num + c - '0';
+
+        printf("the number is %d\n", num);
+
+        return 0;
+}
+\end{verbatim}
+
+\item Why is the following code invalid?
+
+\begin{verbatim}
+void f()
+{
+        int     a = 1;
+
+        a = 2 * ++a;
+}
+\end{verbatim}
+
+\item  What is the value of \verb!-1 / 2U > 4! ?
+
+\item Is the following program valid and what does it print?
+\begin{verbatim}
+#include <stdio.h>
+
+int main(void)
+{
+        signed int      a = 1;
+        signed int*     p = &a;
+        unsigned int*   q = (unsigned int*)p;
+
+        *q = 2;
+
+        printf("a = %d\n", a);
+
+        return 0;
+}
+\end{verbatim}
+Would there be a difference if \verb.q. would be a pointer to a
+\verb.signed short. and the cast be to that type?
+Motivate your answer.
+
+\item Why is it a good idea to design a pipeline so that the different
+pipeline stages need approximately the same time to perform their work?
+
+\item The profiler {\tt operf} can make measurements on programs compiled without any special flag (such as~\verb.-pg. for \verb.gprof.)
+how can it then know which function takes time? Not details but the basic principle.
+
+\item Suppose you profile your program with {\tt operf}, print the measurements with {\tt opreport},
+and find out that the function {\tt pow} takes an unexpectedly large fraction of the execution time.
+How would you find out which other functions call {\tt pow} and how many times?
+
+\item How can you measure how many times each source code line is executed? Do you need to compile the program with
+some special flag and why in that case?
+
+\item What can the Google sanitizer help you with?
+
+\item What is {\tt valgrind} and what can it do for you?
+
+\item What is meant by {\em reduced} in RISC? Number of instructions or something else?
+
+\item What is bad in the code below (by bad is meant risk for undefined behavior or other problem but not the fact that the code is quite meaningless since it does not do anything useful).
+\begin{verbatim}
+void f(size_t n)
+{
+        int*   p = calloc(n, sizeof(int));
+        int*   q = p + 1;
+
+        p = realloc(p, 2 * n * sizeof(int));
+
+        if (p == NULL)
+                return;
+				
+       	q[0] = 1;
+        p[n] += 2;
+
+        free(p);
+}
+
+\end{verbatim}
+
+\item
+Why is the following
+code suboptimal and what can you do about it? How will your modification
+affect the program execution?
+
+\begin{verbatim}
+#define	N	(1000)
+
+double	a[N][N], b[N][N], c[N][N];
+
+void matmul(void)
+{
+        size_t  i, j, k;
+
+        for (i = 0; i < N; i += 1) {
+                for (j = 0; j < N; j += 1) {
+                        a[i][j] = 0;
+                        for (k = 0; k < N; k += 1)
+                                a[i][j] += b[i][k] * c[k][j];
+                }
+       }
+}
+\end{verbatim}
+
+\newpage
+\item Explain how the following function tests if the parameter $a$ is a power of two. 
+
+Assume $a > 0$, i.e., $a = 2^k$ for some $k \ge 0$.
+
+\begin{verbatim}
+int is_power_of_two(unsigned int a)
+{
+        return (a & (a-1)) == 0;
+}
+\end{verbatim}
+
+\item What is meant by SIMD vectorization? Give an example of what you should think of when you try to help the compiler 
+with this.
+
+\item In the code below, is it reasonable to expect that an optimizing ISO C compiler will produce machine code with only one multiplication? What would happen if you put back the assignment that is commented out? Would it affect your answer? Why or why not?
+
+\begin{verbatim}
+int     a;
+int     b;
+int     s;
+float*  p;
+
+int f()
+{
+        int   c;
+
+        c = a * b;
+
+        // *p = c;
+
+        if (s > 1)
+               c += a * b; 
+        return c;
+}
+\end{verbatim}
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,51 @@
+Hello and very welcome to EDAG01 Efficient C!
+
+Short summary: in this course you will learn how to write a solver for integer linear programming in C, and various useful tools when programming in C.
+
+Useful links:
+
+https://cs.lth.se/edag01 (with labs, and youtube playlists near lecture slides)
+https://web.tresorit.com/l/NRNW0#kPzc5_cvrnVgTEE95PqnoQ
+https://calendly.com/forsete
+https://www.amazon.se/Writing-Efficient-Code-thorough-introduction/dp/1659599202/ 
+https://www.youtube.com/channel/UC3stBkbGaerSBDqKfe-NKsg
+https://brew.sh (for macOS to get nice terminal programs found on Linux)
+https://cloud.timeedit.net/lu/web/lth1/ri1X50gQ7560YfQQ25Z6679Y0Zy7007335Y69Q569.html
+
+I will go through what is written below on the first lecture.
+
+Read on if you are curious!
+
+There are six labs and a project. The project is basically labs 1-4 plus measurements and a one A4 page report.
+
+The are labs both on campus and on discord, and lectures on campus plus youtube lectures (both Swedish and English).
+
+There is an oral exam which you can take when you have completed the labs and project. You decide when and the last day is Thursday before Midsummer 2023 (or after summer).
+
+There is a text channel to find a lab partner.
+
+If you want to do the labs alone, pls write that in #solo-laboranter in Discord and pair up with somebody else before reserving a time slot.
+I have not yet created the lab signup but will soon.
+
+If you are new to using terminals, check out appendix-A.pdf in tresorit.
+
+To make the lab presentations more efficient, you should use your full name as user name on Discord.
+
+You can ask me questions using an office hour, email or Discord. At Discord you can either use the text channel "general" or a private message to me. If you think the question is relevant to others please use the text channel.
+
+When you want help or present a lab, enter a Discord voice channel, and write the channel number, and your and your partner's name in the channel #redovisa (or #help).
+
+Don't ask questions in #help since they will be removed.
+
+In the video title there is a LEVEL. This indicates for which grade this is relevant. It is perfectly fine to skip all level 5 videos if you don't aim at a 5 for instance.
+
+There are three programming assignments RPN, FREQ, and POLY which are solved individually. See assignments.pdf in Tresorit.
+
+There are two competitions: one for writing memory efficient RPN, FREQ, and POLY, and another for writing a fast INTOPT.
+
+The deadline for the competitions is December 23rd, at 18:00 but there is no deadline otherwise (except that you need to have finished the assignments, labs and project to take the exam).
+
+You will get an email from Forsete with username and password to the POWER8 machine power.cs.lth.se where you should do some of the labs.
+
+Best Regards,
+Jonas Skeppstedt
