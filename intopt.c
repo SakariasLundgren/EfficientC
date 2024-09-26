@@ -4,6 +4,8 @@
 
 const double EPS = 10e-9;
 
+void bp(void){  }
+
 double** make_matrix (int m, int n) 
 {
     double** a;
@@ -83,8 +85,8 @@ void pivot (simplex_t* s, int row, int col)
         if (i != col) {
             c[i] = c[i] - c[col] * a[row][i] / a[row][col];
         }
-        c[col] = - c[col] / a[row][col]; 
     }
+    c[col] = - c[col] / a[row][col]; 
     for (i = 0; i < m; i = i + 1) {
         if (i != row) {
             b[i] = b[i] - a[i][col] * b[row] / a[row][col];
@@ -92,7 +94,7 @@ void pivot (simplex_t* s, int row, int col)
     }
     for (i = 0; i < m; i = i + 1) {
         if (i != row) {
-            for (j = 0; j < n; j = j + 1); {
+            for (j = 0; j < n; j = j + 1) {
                 if (j != col) {
                     a[i][j] = a[i][j] - a[i][col] * a[row][j] / a[row][col]; 
                 }
@@ -138,19 +140,22 @@ int select_nonbasic (simplex_t* s)
 double xsimplex (int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h)
 {
     simplex_t s; 
-    int i,row,col; 
+    int i,row,col;
+    bp();
     if (!initial(&s, m, n, a, b, c, x, y, var)) {
+        free(s.var);
         s.var = NULL; 
         return NAN; // not a number
     }
-    while ((col = select_nonbasic (&s)) >= 0) { 
+    while ((col=select_nonbasic(&s)) >= 0) { 
         row = -1; 
         for (i = 0; i < m; i = i + 1) {
-            if (a[i][col] > EPS & (row < 0 | b[i] / a[i][col] < b[row] / a[row][col])) {
+            if ((a[i][col] > EPS) && ((row < 0) || (b[i] / a[i][col] < b[row] / a[row][col]))) {
                     row = i;
                 }
         }
         if (row < 0){
+            free(s.var);
             s.var = NULL; 
             return INFINITY; // unbounded 
         }
@@ -168,7 +173,7 @@ double xsimplex (int m, int n, double** a, double* b, double* c, double* x, doub
                 x[s.var[n+i]] = s.b[i];
             }
         }
-        
+        free(s.var); 
         s.var = NULL; 
     }
     else {
@@ -187,8 +192,6 @@ double simplex(int m, int n, double** a, double* b, double* c, double* x, double
     return xsimplex(m,n,a,b,c,x,y,NULL,0);
 }
 
-
-
 int print_matrix(double** a, int m, int n, double* array_c, double* array_b) 
 {
     printf("max z = %10.1lfx0 %+10.1lfx1\n", array_b[0], array_b[1]);
@@ -206,6 +209,8 @@ int main(void)
     double* c;
     double* b;
     double** a;
+    double* x;
+    double y;
 
     c = calloc(n, sizeof(double));
     b = calloc(n, sizeof(double));
@@ -222,10 +227,10 @@ int main(void)
     
     scanf("%lf %lf", &b[0], &b[1]);
     print_matrix(a, m, n, b, c);
-    double *x = calloc(n, sizeof(double));
+    x = calloc(n, sizeof(double));
     for (int i=0; i<n; i++)
             x[i] = 0;
-    double y = 0;   
+    y = 0; 
     printf("Solution: %lf\n",simplex(m, n, a, b, c, x, y));
     
     for (int i = 0; i < n; i++) {
@@ -235,6 +240,7 @@ int main(void)
     free(b);
     free(c);
     free(a);
+    free(x);
     
     return 0;
 }
