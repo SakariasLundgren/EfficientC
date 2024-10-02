@@ -13,7 +13,7 @@ double** make_matrix (int m, int n)
 
     a = calloc(m, sizeof(double*));
     for (i = 0; i < m; i += 1) {
-        a[i] = calloc(n, sizeof(double));
+        a[i] = calloc(n+1, sizeof(double));
     }
     return a;
 }
@@ -42,31 +42,7 @@ typedef struct simplex_t
     double y; /* y. */ 
 } simplex_t;
 
-int init (simplex_t *s, int m, int n, double** a, double* b, double* c, double* x, double y, int* var)
-{
-    int i,k;
-    s -> m = m;
-    s -> n = n;
-    s -> a = a;
-    s -> b = b;
-    s -> c = c;
-    s -> x = x;
-    s -> y = y;
-    s -> var = var;
-    if (s -> var == NULL) {
-        s -> var = xmalloc((m + n + 1) * sizeof(int)); 
-        for (i = 0; i < m+n; i = i + 1) {
-            s -> var[i] = i; 
-        }
-    }
-    
-    for (k = 0, i = 1; i < m; i = i + 1) {
-        if ((s -> b[i]) < (s -> b[k])) {
-            k = i; 
-        }
-    }
-    return k;
-}
+int initial (simplex_t* s, int m, int n, double** a, double* b, double* c, double* x, int y, int* var);
 
 void pivot (simplex_t* s, int row, int col)
 {
@@ -115,37 +91,73 @@ void pivot (simplex_t* s, int row, int col)
     a[row][col] = 1 / a[row][col];
 }
 
-int initial (simplex_t* s, int m, int n, double** a, double* b, double* c, double* x, int y, int* var)
-{
-    int i,j,k; 
-    double w; 
-    k = init(s, m, n, a, b, c, x, y, var); 
-    
-    if (b[k] >= 0) {
-        return 1; // feasible
-    }
-}
-
 int select_nonbasic (simplex_t* s) 
 {
     int i; 
-    for (i = 0; i < s -> n; i = i + 1) {
-        if (s -> c[i] > EPS) {    
+    for (i = 0; i < s->n; i = i + 1) {
+        if (s->c[i] > EPS) { 
             return i;
         }
     }
     return -1;
 }
 
+void prepare(simplex_t* s,int k)
+{
+    int m = s->m;
+    int n = s->n;
+    int i;
+
+    for(i = m + n; i > n; i = i - 1)
+        s->var[i] = s->var[i-1];
+    s->var[n] = m + n;
+    n = n + 1;
+    printf("n = %d\n", n);
+    for(i = 0; i < m; i = i + 1)
+        s->a[i][n-1] = -1;
+    s->x = calloc(m + n, sizeof(double));
+    s->c = calloc(n, sizeof(double));
+    s->c[n-1] = -1;
+    s->n = n;
+    pivot(s, k, n-1);
+}
+
+int init (simplex_t *s, int m, int n, double** a, double* b, double* c, double* x, double y, int* var)
+{
+    int i,k;
+    s->m = m;
+    s->n = n;
+    s->a = a;
+    s->b = b;
+    s->c = c;
+    s->x = x;
+    s->y = y;
+    s->var = var;
+    if (s->var == NULL) {
+        s->var = calloc(m + n + 1, sizeof(int)); 
+        for (i = 0; i < m+n; i = i + 1) {
+            s->var[i] = i; 
+        }
+    }
+    
+    for (k = 0, i = 1; i < m; i = i + 1) {
+        if ((s -> b[i]) < (s -> b[k])) {
+            k = i; 
+        }
+    }
+    return k;
+}
+
 double xsimplex (int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h)
 {
-    simplex_t s; 
+    struct simplex_t s; 
     int i,row,col;
-    bp();
     if (!initial(&s, m, n, a, b, c, x, y, var)) {
         free(s.var);
         s.var = NULL; 
+        printf("WARNING: No solution\n");
         return NAN; // not a number
+        
     }
     while ((col=select_nonbasic(&s)) >= 0) { 
         row = -1; 
@@ -157,7 +169,8 @@ double xsimplex (int m, int n, double** a, double* b, double* c, double* x, doub
         if (row < 0){
             free(s.var);
             s.var = NULL; 
-            return INFINITY; // unbounded 
+            printf("WARNING: Unbounded\n");
+            return INFINITY; // unbounded
         }
         pivot (&s,row, col); 
     } 
@@ -187,6 +200,87 @@ double xsimplex (int m, int n, double** a, double* b, double* c, double* x, doub
     return s.y;
 }
 
+int initial (simplex_t* s, int m, int n, double** a, double* b, double* c, double* x, int y, int* var)
+{
+    int i,j,k; 
+    double w;
+    int* t;
+    k = init(s, m, n, a, b, c, x, y, var); 
+    
+    if (b[k] >= 0) {
+        return 1; // feasible
+    }
+    prepare(s, k);
+    n = s->n;
+    s->y = xsimplex(m, n, s->a, s->b, s->c, s->x, 0, s->var, 1);
+    for (i = 0; i < m + n; i = i + 1){
+        if(s->var[i] == m+n-1){
+            if (abs(s->x[i])>EPS) {
+                free(s->x);
+                free(s->c);
+                s->x = NULL;
+                s->c = NULL;
+                return 0;
+            } else {
+                break;
+            }
+        }
+    }
+    
+    if(i >= n){
+        for (j = k = 0; k < n; k = k + 1)
+            if( abs(s->a[i-n][k]) > abs(s->a[i-n][j]) )
+                j=k;
+        pivot(s, i-n, j);
+        i=j;
+    }
+    if(i<n-1){
+        printf("i = %d\n", i);
+        k = s->var[i];
+        s->var[i] = s->var[n-1];
+        s->var[n-1] = k;
+        
+        for (k=0; k<m; k=k+1){
+            w = s->a[k][n-1];
+            s->a[k][n-1] = s->a[k][i];
+            s->a[k][i] = w;
+        }
+    } else {
+        //x_n+m is nonbasic and last, forget it
+    }
+    s->c = NULL;
+    s->c = c;
+    s->y = y;
+    for (k=n-1; k<n+m-1; k=k+1)
+        s->var[k] = s->var[k+1]; n = s->n = s->n - 1;
+    t = calloc(n, sizeof(double));
+    
+    for(k=0; k<n; k=k+1){
+        for(j=0; j<n; j=j+1){
+            if (k == s->var[j]){
+                t[j] = t[j] + s->c[k];
+                goto next_k;
+            }
+        }
+        
+        for(j=0; j<m; j=j+1)
+            if(s->var[n+j] == k)
+                break;
+        s->y = s->y + s->c[k] * s->b[j];
+        for(i=0; i<n; i=i+1)
+            t[i] = t[i] - s->c[k] * s->a[j][i];
+    next_k:;
+    }
+
+    for(i=0; i<n;i=i+1)
+        s->c[i] = t[i];
+    free(t);
+    free(s->x);
+    t = NULL;
+    s->x = NULL;
+    return 1;
+} 
+
 double simplex(int m, int n, double** a, double* b, double* c, double* x, double y) 
 {
     return xsimplex(m,n,a,b,c,x,y,NULL,0);
@@ -212,10 +306,11 @@ int main(void)
     double* x;
     double y;
 
-    c = calloc(n, sizeof(double));
-    b = calloc(n, sizeof(double));
-
     scanf("%d %d", &m, &n);
+
+    c = calloc(n, sizeof(double));
+    b = calloc(m, sizeof(double));
+
     scanf("%lf %lf", &c[0], &c[1]);
     a = make_matrix(m, n);
 
@@ -225,22 +320,22 @@ int main(void)
         }
     }
     
-    scanf("%lf %lf", &b[0], &b[1]);
+    scanf("%lf %lf %lf", &b[0], &b[1], &b[2]);
     print_matrix(a, m, n, b, c);
-    x = calloc(n, sizeof(double));
+    x = calloc(n+m+1, sizeof(double));
     for (int i=0; i<n; i++)
             x[i] = 0;
     y = 0; 
     printf("Solution: %lf\n",simplex(m, n, a, b, c, x, y));
     
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < m; i++) {
         free(a[i]);
+        a[i] = NULL;
     }
 
     free(b);
     free(c);
     free(a);
-    free(x);
     
     return 0;
 }
