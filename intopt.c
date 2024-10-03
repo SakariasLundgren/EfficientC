@@ -44,50 +44,59 @@ typedef struct simplex_t
 
 int initial (simplex_t* s, int m, int n, double** a, double* b, double* c, double* x, int y, int* var);
 
+
 void pivot (simplex_t* s, int row, int col)
 {
-    double** a = s->a; 
-    double* b = s->b;
-    double* c = s->c; 
-    int m = s -> m; 
-    int n = s -> n;
+    double** a = s->a;    
+    double* b = s->b;     
+    double* c = s->c;    
+    int m = s->m;       
+    int n = s->n;      
     int i,j,t; 
     
-    t = s->var[col]; 
-    s->var[col] = s->var[n+row]; 
-    s->var[n+row] = t; 
+    // Swap the variable indices between the entering and leaving variables
+    t = s->var[col];             // Save the variable that is entering the basis
+    s->var[col] = s->var[n+row]; // Update the variable at the entering column with the one leaving
+    s->var[n+row] = t;           // Set the leaving variable index
+    
+    // Update the value of the objective function based on the pivot operation
     s->y = s->y + c[col] * b[row] / a[row][col]; 
-    for (i = 0; i < n; i = i + 1) {
-        if (i != col) {
+
+    // Update the coefficients of the objective function (row of the simplex tableau)
+    for (i = 0; i < n; i = i + 1) 
+        if (i != col) 
             c[i] = c[i] - c[col] * a[row][i] / a[row][col];
-        }
-    }
+    
+    // Update the coefficient of the entering variable in the objective function to its new value
     c[col] = - c[col] / a[row][col]; 
-    for (i = 0; i < m; i = i + 1) {
-        if (i != row) {
+    
+    // Update the right-hand side vector (constants) for all rows except the pivot row
+    for (i = 0; i < m; i = i + 1) 
+        if (i != row) 
             b[i] = b[i] - a[i][col] * b[row] / a[row][col];
-        }
-    }
-    for (i = 0; i < m; i = i + 1) {
-        if (i != row) {
-            for (j = 0; j < n; j = j + 1) {
-                if (j != col) {
+
+    // Update the constraint matrix for all rows except the pivot row and all columns except the pivot column
+    for (i = 0; i < m; i = i + 1) 
+        if (i != row) 
+            for (j = 0; j < n; j = j + 1) 
+                if (j != col) 
+                    // Update each non-pivot element based on the pivot element
                     a[i][j] = a[i][j] - a[i][col] * a[row][j] / a[row][col]; 
-                }
-            }
-        }
-    }
-    for (i = 0; i < m; i = i + 1) {    
-        if (i != row) {
+
+    // Update the pivot column for all rows except the pivot row
+    for (i = 0; i < m; i = i + 1) 
+        if (i != row) 
             a[i][col] = -a[i][col] / a[row][col]; 
-        }
-    }
-    for (i = 0; i < n; i = i + 1) {
-        if (i != col)  {
+
+    // Update the pivot row for all columns except the pivot column
+    for (i = 0; i < n; i = i + 1) 
+        if (i != col)  
             a[row][i] = a[row][i] / a[row][col]; 
-        }
-    }
+
+    // Update the right-hand side of the pivot row
     b[row] = b[row] / a[row][col];
+
+    // Set the pivot element to its final value (1 after normalization)
     a[row][col] = 1 / a[row][col];
 }
 
@@ -102,24 +111,45 @@ int select_nonbasic (simplex_t* s)
     return -1;
 }
 
-void prepare(simplex_t* s,int k)
+
+void prepare(simplex_t* s, int k)
 {
-    int m = s->m;
-    int n = s->n;
+    int m = s->m;  
+    int n = s->n; 
     int i;
 
-    for(i = m + n; i > n; i = i - 1)
-        s->var[i] = s->var[i-1];
-    s->var[n] = m + n;
-    n = n + 1;
-    printf("n = %d\n", n);
-    for(i = 0; i < m; i = i + 1)
-        s->a[i][n-1] = -1;
-    s->x = calloc(m + n, sizeof(double));
-    s->c = calloc(n, sizeof(double));
-    s->c[n-1] = -1;
+    // Shift the variable indices to make room for the new artificial variable
+    // Move all variables one position up in the var array
+    for(i = m + n; i > n; i = i - 1) 
+        s->var[i] = s->var[i-1];  // Shift the variables down by one position
+
+    // Set the variable at index 'n' to the new artificial variable (m + n)
+    s->var[n] = m + n;  // Add the new variable in the variable list
+
+    // Increase the number of variables by one
+    n = n + 1;  
+    printf("n = %d\n", n);  // Print the new number of variables for debugging
+
+    // Modify the constraint matrix (tableau) to add the artificial variable
+    // Set the coefficients of the new variable (artificial variable) to -1 in each constraint row
+    for(i = 0; i < m; i = i + 1) 
+        s->a[i][n-1] = -1;  // The last column (new variable's column) gets a value of -1 for each row
+
+    // Allocate memory for the solution vector and the cost vector
+    // The solution vector 'x' is extended to include the new artificial variable
+    s->x = calloc(m + n, sizeof(double));  // Allocate memory for solution vector (all zeroed initially)
+    
+    // The cost vector 'c' is also extended to include the new variable
+    s->c = calloc(n, sizeof(double));  // Allocate memory for cost vector
+    
+    // Set the cost of the artificial variable to -1 in the objective function
+    s->c[n-1] = -1;  // Set the cost of the new variable (last column) to -1 in the objective function
+
+    // Update the number of variables in the simplex structure to include the new variable
     s->n = n;
-    pivot(s, k, n-1);
+
+    // Perform a pivot operation to bring the k-th constraint into the basis using the new artificial variable
+    pivot(s, k, n-1);  // Pivot on row 'k' and the newly added variable (last column)
 }
 
 int init (simplex_t *s, int m, int n, double** a, double* b, double* c, double* x, double y, int* var)
@@ -133,70 +163,88 @@ int init (simplex_t *s, int m, int n, double** a, double* b, double* c, double* 
     s->x = x;
     s->y = y;
     s->var = var;
+
     if (s->var == NULL) {
         s->var = calloc(m + n + 1, sizeof(int)); 
-        for (i = 0; i < m+n; i = i + 1) {
+        for (i = 0; i < m+n; i = i + 1) 
             s->var[i] = i; 
-        }
     }
     
-    for (k = 0, i = 1; i < m; i = i + 1) {
-        if ((s -> b[i]) < (s -> b[k])) {
+    for (k = 0, i = 1; i < m; i = i + 1) 
+        if ((s -> b[i]) < (s -> b[k])) 
             k = i; 
-        }
-    }
     return k;
 }
 
+
 double xsimplex (int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h)
 {
-    struct simplex_t s; 
-    int i,row,col;
-    if (!initial(&s, m, n, a, b, c, x, y, var)) {
-        free(s.var);
-        s.var = NULL; 
-        printf("WARNING: No solution\n");
-        return NAN; // not a number
-        
+    struct simplex_t s;  
+    int i, row, col;    
+
+    if (!initial(&s, m, n, a, b, c, x, y, var)) {  
+        free(s.var);       
+        s.var = NULL;     
+        printf("WARNING: No solution\n");  
+        return NAN;      
     }
-    while ((col=select_nonbasic(&s)) >= 0) { 
+
+    // Main Simplex loop: Perform pivoting as long as there's a non-basic variable that can improve the objective
+    while ((col = select_nonbasic(&s)) >= 0) {  // Find the non-basic variable (column) to enter the basis
         row = -1; 
-        for (i = 0; i < m; i = i + 1) {
-            if ((a[i][col] > EPS) && ((row < 0) || (b[i] / a[i][col] < b[row] / a[row][col]))) {
-                    row = i;
-                }
+
+        // Select the pivot row using the minimum ratio test (Bland's rule)
+        for (i = 0; i < m; i = i + 1) {  
+            if ((a[i][col] > EPS) &&     // Check if the coefficient in the selected column is positive
+                ((row < 0) || (b[i] / a[i][col] < b[row] / a[row][col]))) {
+                    row = i;  // Choose the row with the smallest ratio of b[i] / a[i][col]
+            }
         }
-        if (row < 0){
-            free(s.var);
+
+        if (row < 0) {
+            free(s.var); 
             s.var = NULL; 
-            printf("WARNING: Unbounded\n");
-            return INFINITY; // unbounded
+            printf("WARNING: Unbounded\n"); 
+            return INFINITY;  
         }
-        pivot (&s,row, col); 
-    } 
-        
+
+        // Perform the pivot operation on the selected row and column
+        pivot(&s, row, col);  // Pivot on the chosen row and column to update the tableau
+    }
+
+    // If h == 0 (standard simplex algorithm phase, without artificial variables)
     if (h == 0) {
+        // Set all variables that are non-basic (not in the basis) to zero
         for (i = 0; i < n; i = i + 1) {
-            if (s.var[i] < n) { 
-                x[s.var[i]] = 0; 
+            if (s.var[i] < n) {  // If the variable index is part of the original variables
+                x[s.var[i]] = 0;  // Set the corresponding value in 'x' to zero
             }
         }
+
+        // Set values of basic variables (in the basis) according to the solution vector 'b'
         for (i = 0; i < m; i = i + 1) {
-            if (s.var[n+i] < n) {
-                x[s.var[n+i]] = s.b[i];
+            if (s.var[n + i] < n) {  // If the variable index is part of the original variables
+                x[s.var[n + i]] = s.b[i];  // Set the value from the solution vector 'b'
             }
         }
-        free(s.var); 
-        s.var = NULL; 
+
+        free(s.var);
+        s.var = NULL;
     }
+    // If h != 0 (this could be used in cases like Phase 1 with artificial variables)
     else {
+        // Set all original variables' values to zero
         for (i = 0; i < n; i = i + 1) {
-            x[i] = 0; 
+            x[i] = 0;  // Initialize all solution values to zero
         }
-        for (i = n; i < n+m; i = i + 1) {
-            x[i] = s.b[i-n];
+
+        // Set the values of the basic variables (including possible artificial variables)
+        for (i = n; i < n + m; i = i + 1) {
+            x[i] = s.b[i - n];  // Assign the solution values from 'b'
         }
     }
+
+    // Return the optimal value of the objective function 'y' from the simplex structure
     return s.y;
 }
 
