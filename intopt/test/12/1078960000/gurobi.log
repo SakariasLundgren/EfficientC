@@ -1,0 +1,52 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Mon Jan 20 02:07:06 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 12 rows, 24 columns, 140 nonzeros
+Optimize a model with 12 rows, 24 columns and 140 nonzeros
+Model fingerprint: 0xfa97a260
+Variable types: 12 continuous, 12 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+01, 8e+01]
+Found heuristic solution: objective 56.0000000
+Presolve removed 0 rows and 12 columns
+Presolve time: 0.00s
+Presolved: 12 rows, 12 columns, 128 nonzeros
+Variable types: 0 continuous, 12 integer (0 binary)
+
+Root relaxation: objective 2.178242e+02, 7 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  217.82418    0    6   56.00000  217.82418   289%     -    0s
+H    0     0                     202.0000000  217.82418  7.83%     -    0s
+     0     0  215.98965    0    6  202.00000  215.98965  6.93%     -    0s
+     0     0  215.98965    0    6  202.00000  215.98965  6.93%     -    0s
+     0     2  215.34769    0    6  202.00000  215.34769  6.61%     -    0s
+H   39    23                     205.0000000  214.50485  4.64%   1.5    0s
+*   60    11               5     211.0000000  212.32258  0.63%   1.6    0s
+
+Explored 71 nodes (113 simplex iterations) in 0.06 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 4: 211 205 202 56 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.110000000000e+02, best bound 2.110000000000e+02, gap 0.0000%
+
+Wrote result file 'a.sol'
+

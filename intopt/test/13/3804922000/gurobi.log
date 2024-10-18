@@ -1,0 +1,51 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Mon Jan 20 07:45:01 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 13 rows, 26 columns, 168 nonzeros
+Optimize a model with 13 rows, 26 columns and 168 nonzeros
+Model fingerprint: 0xd5a10055
+Variable types: 13 continuous, 13 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e+01, 9e+01]
+Presolve removed 0 rows and 13 columns
+Presolve time: 0.00s
+Presolved: 13 rows, 13 columns, 155 nonzeros
+Variable types: 0 continuous, 13 integer (0 binary)
+
+Root relaxation: objective 2.628900e+03, 11 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 2628.90032    0    6          - 2628.90032      -     -    0s
+     0     0 2627.62349    0    5          - 2627.62349      -     -    0s
+     0     0 2627.62349    0    5          - 2627.62349      -     -    0s
+H    0     0                     348.0000000 2627.62349   655%     -    0s
+     0     2 2627.62349    0    5  348.00000 2627.62349   655%     -    0s
+H   20    16                    2573.0000000 2622.30435  1.92%   1.0    0s
+H   77    26                    2592.0000000 2622.30435  1.17%   1.1    0s
+
+Explored 150 nodes (167 simplex iterations) in 0.10 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 3: 2592 2573 348 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.592000000000e+03, best bound 2.592000000000e+03, gap 0.0000%
+
+Wrote result file 'a.sol'
+

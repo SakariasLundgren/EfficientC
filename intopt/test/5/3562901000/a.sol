@@ -1,0 +1,12 @@
+# Solution for model Obj
+# Objective value = 132
+x0 0
+x1 11
+x2 0
+x3 5
+x4 19
+C0 0
+C1 0
+C2 0
+C3 0
+C4 0

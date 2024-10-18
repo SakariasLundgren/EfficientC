@@ -1,0 +1,51 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Sun Jan 19 20:09:43 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 10 rows, 20 columns, 102 nonzeros
+Optimize a model with 10 rows, 20 columns and 102 nonzeros
+Model fingerprint: 0x40092877
+Variable types: 10 continuous, 10 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [4e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+01, 8e+01]
+Presolve removed 0 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 10 rows, 10 columns, 92 nonzeros
+Variable types: 0 continuous, 10 integer (0 binary)
+
+Root relaxation: objective 1.871296e+04, 10 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 18712.9622    0    6          - 18712.9622      -     -    0s
+H    0     0                     975.0000000 18712.9622  1819%     -    0s
+H    0     0                    1367.0000000 18712.9622  1269%     -    0s
+     0     0 18712.9622    0    6 1367.00000 18712.9622  1269%     -    0s
+H    0     0                    1625.0000000 18712.9622  1052%     -    0s
+     0     1 18683.1732    0    5 1625.00000 18683.1732  1050%     -    0s
+H   97     7                    18148.000000 18313.5000  0.91%   1.8    0s
+
+Explored 122 nodes (221 simplex iterations) in 0.08 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 4: 18148 1625 1367 975 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.814800000000e+04, best bound 1.814800000000e+04, gap 0.0000%
+
+Wrote result file 'a.sol'
+

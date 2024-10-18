@@ -1,0 +1,51 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Mon Jan 20 11:23:42 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 14 rows, 28 columns, 193 nonzeros
+Optimize a model with 14 rows, 28 columns and 193 nonzeros
+Model fingerprint: 0x130cf12f
+Variable types: 14 continuous, 14 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+01, 9e+01]
+Presolve removed 0 rows and 14 columns
+Presolve time: 0.00s
+Presolved: 14 rows, 14 columns, 179 nonzeros
+Variable types: 0 continuous, 14 integer (0 binary)
+
+Root relaxation: objective 2.062546e+02, 11 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  206.25461    0    7          -  206.25461      -     -    0s
+H    0     0                      56.0000000  206.25461   268%     -    0s
+H    0     0                     190.0000000  206.25461  8.56%     -    0s
+     0     0  205.63204    0    7  190.00000  205.63204  8.23%     -    0s
+     0     0  205.63204    0    7  190.00000  205.63204  8.23%     -    0s
+     0     2  205.63204    0    7  190.00000  205.63204  8.23%     -    0s
+H   44    20                     191.0000000  205.12922  7.40%   1.7    0s
+
+Explored 176 nodes (325 simplex iterations) in 0.14 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 3: 191 190 56 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.910000000000e+02, best bound 1.910000000000e+02, gap 0.0000%
+
+Wrote result file 'a.sol'
+

@@ -1,0 +1,30 @@
+# Solution for model Obj
+# Objective value = 428
+x0 0
+x1 10
+x2 18
+x3 0
+x4 11
+x5 0
+x6 29
+x7 10
+x8 11
+x9 34
+x10 8
+x11 0
+x12 0
+x13 2
+C0 0
+C1 0
+C2 0
+C3 0
+C4 0
+C5 0
+C6 0
+C7 0
+C8 0
+C9 0
+C10 0
+C11 0
+C12 0
+C13 0

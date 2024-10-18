@@ -1,0 +1,52 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Sun Jan 19 15:27:44 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 9 rows, 18 columns, 81 nonzeros
+Optimize a model with 9 rows, 18 columns and 81 nonzeros
+Model fingerprint: 0x43096c0b
+Variable types: 9 continuous, 9 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 7e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e+01, 9e+01]
+Presolve removed 0 rows and 9 columns
+Presolve time: 0.00s
+Presolved: 9 rows, 9 columns, 72 nonzeros
+Variable types: 0 continuous, 9 integer (0 binary)
+Found heuristic solution: objective 46.0000000
+
+Root relaxation: objective 1.488624e+03, 11 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1488.62419    0    5   46.00000 1488.62419  3136%     -    0s
+H    0     0                     786.0000000 1488.62419  89.4%     -    0s
+H    0     0                     977.0000000 1488.62419  52.4%     -    0s
+     0     0 1473.92830    0    4  977.00000 1473.92830  50.9%     -    0s
+     0     0 1473.92830    0    4  977.00000 1473.92830  50.9%     -    0s
+H    0     0                    1427.0000000 1473.92830  3.29%     -    0s
+     0     2 1469.43138    0    2 1427.00000 1469.43138  2.97%     -    0s
+
+Explored 37 nodes (95 simplex iterations) in 0.06 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 4: 1427 977 786 46 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.427000000000e+03, best bound 1.427000000000e+03, gap 0.0000%
+
+Wrote result file 'a.sol'
+

@@ -1,0 +1,51 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Tue Jan 21 14:53:31 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 17 rows, 34 columns, 284 nonzeros
+Optimize a model with 17 rows, 34 columns and 284 nonzeros
+Model fingerprint: 0x0f9ebdd0
+Variable types: 17 continuous, 17 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e+01, 9e+01]
+Presolve removed 0 rows and 17 columns
+Presolve time: 0.00s
+Presolved: 17 rows, 17 columns, 267 nonzeros
+Variable types: 0 continuous, 17 integer (0 binary)
+
+Root relaxation: objective 4.830778e+03, 14 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 4830.77758    0    7          - 4830.77758      -     -    0s
+     0     0 4816.75278    0    7          - 4816.75278      -     -    0s
+     0     0 4816.75278    0    7          - 4816.75278      -     -    0s
+     0     2 4816.75278    0    7          - 4816.75278      -     -    0s
+H   78    43                    4388.0000000 4783.08638  9.00%   2.2    0s
+H  357   124                    4409.0000000 4731.70159  7.32%   2.1    0s
+H  376   124                    4623.0000000 4731.70159  2.35%   2.1    0s
+
+Explored 577 nodes (1006 simplex iterations) in 0.25 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 3: 4623 4409 4388 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.623000000000e+03, best bound 4.623000000000e+03, gap 0.0000%
+
+Wrote result file 'a.sol'
+

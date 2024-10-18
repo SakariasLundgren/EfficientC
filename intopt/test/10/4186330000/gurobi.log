@@ -1,0 +1,52 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Sun Jan 19 17:56:44 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 10 rows, 20 columns, 101 nonzeros
+Optimize a model with 10 rows, 20 columns and 101 nonzeros
+Model fingerprint: 0xb6038cfc
+Variable types: 10 continuous, 10 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [2e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e+01, 9e+01]
+Presolve removed 0 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 10 rows, 10 columns, 91 nonzeros
+Variable types: 0 continuous, 10 integer (0 binary)
+
+Root relaxation: objective 6.950463e+02, 10 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  695.04634    0    6          -  695.04634      -     -    0s
+H    0     0                     447.0000000  695.04634  55.5%     -    0s
+H    0     0                     628.0000000  695.04634  10.7%     -    0s
+     0     0  695.04634    0    6  628.00000  695.04634  10.7%     -    0s
+     0     2  687.83470    0    6  628.00000  687.83470  9.53%     -    0s
+H   14     7                     652.0000000  672.03448  3.07%   1.7    0s
+*   22     5               8     656.0000000  668.56098  1.91%   1.9    0s
+*   26     5               6     661.0000000  664.75286  0.57%   1.9    0s
+
+Explored 32 nodes (63 simplex iterations) in 0.04 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 5: 661 656 652 ... 447
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.610000000000e+02, best bound 6.610000000000e+02, gap 0.0000%
+
+Wrote result file 'a.sol'
+

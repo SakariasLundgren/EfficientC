@@ -1,0 +1,51 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Thu Jan 23 03:20:08 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 19 rows, 38 columns, 333 nonzeros
+Optimize a model with 19 rows, 38 columns and 333 nonzeros
+Model fingerprint: 0x1d69e84b
+Variable types: 19 continuous, 19 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+01, 9e+01]
+Presolve removed 0 rows and 19 columns
+Presolve time: 0.00s
+Presolved: 19 rows, 19 columns, 314 nonzeros
+Variable types: 0 continuous, 19 integer (0 binary)
+
+Root relaxation: objective 1.255919e+03, 21 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1255.91853    0   10          - 1255.91853      -     -    0s
+     0     0 1251.90265    0    9          - 1251.90265      -     -    0s
+     0     0 1251.90265    0    9          - 1251.90265      -     -    0s
+     0     2 1251.90265    0    9          - 1251.90265      -     -    0s
+H  845   187                     972.0000000 1120.62264  15.3%   2.4    0s
+H 1786   217                     976.0000000 1077.55744  10.4%   2.6    0s
+H 1829   217                    1003.0000000 1077.55744  7.43%   2.6    0s
+
+Explored 2606 nodes (6918 simplex iterations) in 0.38 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 3: 1003 976 972 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.003000000000e+03, best bound 1.003000000000e+03, gap 0.0000%
+
+Wrote result file 'a.sol'
+

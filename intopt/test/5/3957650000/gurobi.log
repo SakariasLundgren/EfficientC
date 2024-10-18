@@ -1,0 +1,41 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Sun Jan 19 05:14:38 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 5 rows, 10 columns, 28 nonzeros
+Optimize a model with 5 rows, 10 columns and 28 nonzeros
+Model fingerprint: 0x7395750f
+Variable types: 5 continuous, 5 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [1e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+01, 9e+01]
+Presolve removed 2 rows and 7 columns
+Presolve time: 0.00s
+Presolved: 3 rows, 3 columns, 9 nonzeros
+Variable types: 0 continuous, 3 integer (0 binary)
+Found heuristic solution: objective 180.0000000
+
+Root relaxation: cutoff, 0 iterations, 0.00 seconds
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 180 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.800000000000e+02, best bound 1.800000000000e+02, gap 0.0000%
+
+Wrote result file 'a.sol'
+

@@ -1,0 +1,52 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Sun Jan 19 06:09:37 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 6 rows, 12 columns, 41 nonzeros
+Optimize a model with 6 rows, 12 columns and 41 nonzeros
+Model fingerprint: 0xce375a07
+Variable types: 6 continuous, 6 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [2e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+01, 9e+01]
+Presolve removed 0 rows and 6 columns
+Presolve time: 0.00s
+Presolved: 6 rows, 6 columns, 35 nonzeros
+Variable types: 0 continuous, 6 integer (0 binary)
+Found heuristic solution: objective 47.0000000
+Found heuristic solution: objective 155.0000000
+
+Root relaxation: objective 5.877377e+02, 5 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  587.73770    0    4  155.00000  587.73770   279%     -    0s
+H    0     0                     555.0000000  587.73770  5.90%     -    0s
+     0     0  587.73770    0    4  555.00000  587.73770  5.90%     -    0s
+H    0     0                     573.0000000  587.73770  2.57%     -    0s
+     0     2  586.80000    0    3  573.00000  586.80000  2.41%     -    0s
+H    4     1                     578.0000000  584.73026  1.16%   1.5    0s
+
+Explored 12 nodes (21 simplex iterations) in 0.04 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 5: 578 573 555 ... 47
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.780000000000e+02, best bound 5.780000000000e+02, gap 0.0000%
+
+Wrote result file 'a.sol'
+

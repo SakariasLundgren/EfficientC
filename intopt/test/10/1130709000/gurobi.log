@@ -1,0 +1,51 @@
+
+Gurobi 9.0.0 (linux64, gurobi_cl) logging started Sun Jan 19 19:41:14 2020
+
+Using license file /home/js/gurobi/gurobi.lic
+Set parameter TimeLimit to value 600
+Set parameter Cuts to value 0
+Set parameter LogFile to value gurobi.log
+Academic license - for non-commercial use only
+
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (linux64)
+Copyright (c) 2019, Gurobi Optimization, LLC
+
+Read LP format model from file a.lp
+Reading time = 0.00 seconds
+Obj: 10 rows, 20 columns, 104 nonzeros
+Optimize a model with 10 rows, 20 columns and 104 nonzeros
+Model fingerprint: 0xe21394a8
+Variable types: 10 continuous, 10 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [3e+00, 9e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e+01, 8e+01]
+Presolve removed 0 rows and 10 columns
+Presolve time: 0.00s
+Presolved: 10 rows, 10 columns, 94 nonzeros
+Variable types: 0 continuous, 10 integer (0 binary)
+
+Root relaxation: objective 2.464832e+02, 10 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  246.48322    0    6          -  246.48322      -     -    0s
+H    0     0                     188.0000000  246.48322  31.1%     -    0s
+H    0     0                     212.0000000  246.48322  16.3%     -    0s
+     0     0  246.48322    0    6  212.00000  246.48322  16.3%     -    0s
+     0     2  246.48322    0    6  212.00000  246.48322  16.3%     -    0s
+H    4     6                     214.0000000  237.54762  11.0%   0.8    0s
+H    6     6                     221.0000000  237.49142  7.46%   1.0    0s
+
+Explored 29 nodes (56 simplex iterations) in 0.02 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 4: 221 214 212 188 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.210000000000e+02, best bound 2.210000000000e+02, gap 0.0000%
+
+Wrote result file 'a.sol'
+
