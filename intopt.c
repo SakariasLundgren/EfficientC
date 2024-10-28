@@ -487,7 +487,6 @@ double intopt(int m, int n, double** a, double* b, double* c, double* x)
     }
 }
 
-
 void pivot (simplex_t* s, int row, int col)
 {
     double** a = s->a;    
