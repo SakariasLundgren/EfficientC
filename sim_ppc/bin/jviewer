@@ -1,0 +1,10 @@
+#!/bin/sh
+# © Copyright IBM Corp. 2018
+BASE_DIR="$(dirname $0)"
+SCROLLPIPE_HOME="$BASE_DIR/scroll_compile_13"
+BIN_JAVA="/usr/bin/java"
+
+${BIN_JAVA} -Xmx100m -cp "${SCROLLPIPE_HOME}:." ScrollPipeViewer ${@} 2> /dev/null
+
+
+${BIN_JAVA} -jar "${BASE_DIR}"/dev_jviewer.jar ${@}

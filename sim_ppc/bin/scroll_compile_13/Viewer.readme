@@ -1,0 +1,217 @@
+USING THE JAVA SCROLLPIPE VIEWER
+--------------------------------
+
+Once you have generated a .pipe and .config file you can use the Java scrollpipe 
+viewer to look at them.  Be warned that very large .pipe files will take
+a long time to load as the entire file must be scanned first.  Keeping to ~5000 
+cycles is a good idea.  Here is the usage statement for the viewer:
+
+ScrollPipeViewer Version 1.2
+
+This program can operate either as a scrollpipe viewer with a GUI or as a conversion
+program to create ASCII scrollpipes.  Below are the command line args for both modes
+as well as the args they share:
+
+-------------------- Common Options ---------------------|
+ -pipe         value - Specifies the 1st .pipe file to load, if no -config is
+                       given then the config filename is assumed  to be the same
+                       as the the .pipe file but with a .config suffix.
+ -config       value - Specifies the 1st .config file to load.
+ -pipe2        value - Specifies the 2nd .pipe file to load, if no -config is
+                       given then the config filename is assumed  to be the same
+                       as the the .pipe file but with a .config suffix.
+ -config2      value - Specifies the 2nd .config file to load.
+ -help               - This help screen.
+
+-------------------- GUI Options ------------------------|
+ -wid          value - The width of the program in pixels (default = system max - 75).
+ -len          value - The length of the program in pixels (default = system max - 60).
+ -max                - Loads the viewer maximized.
+ -hider              - Will automatically 'hide unvisited resources' after loading
+                       a file when in resource mode
+
+-------------------- ASCII Conversion Options -----------|
+
+|---- Common Options ----|
+ -out_file     value - Specifies the output filename to be written, suppresses the GUI.
+ -overwrite          - Will overwrite output if it exists instead of exiting.
+ -cycle_wid    value - Specifies the width in cycles of the output file, default 80 and
+                       must be a multiple of 10
+
+ -cycle_offset value - Controls the cycle offset at which the file starts from, use this to
+                       show true cycle time instead of the time relative to the start of the
+                       begin of the pipe, default 0 must be >= 10.
+ -cycle_repeat value - If > 0 will cause the cycle info to be repeated in at interval not
+                       exceeding this value, default 0.
+
+ -print_key    value - Value can be true/false, when true a key will be written, default true.
+ -skinny             - Will remove extra spacing in side bar columns to reduce file width at
+                       the expense of readability.
+
+ -multi_events value - Controls how multiple events in the same cycle are handled, options are:
+                        last  - The last event in a cycle will be printed, default.
+                        first - The first event in a cycle will be printed.
+                        all   - All events in a cycle will be printed by using multiple lines.
+                        *Note: when using first or last a '+' and not a '|' will be printed at the
+                        end of each line where there were multiple events in the same cycle.
+
+|---- Resource Mode ----|
+ -show_all           - Will show all resources for each block of time instead of the default
+                       mode where only resources with activity in a given block of time are shown.
+ -hide_empty         - Will hide resources who are never used in the whole file from being printed,
+                       use when using the -show_all_resources flag to hide unvisited resources.
+
+Author: John Griswell, IBM Austin
+
+
+The rest of this file is devoted to the GUI as the ASCII conversion function is straight forward.
+
+Loading a File
+--------------
+
+To load test.pipe and test.config enter any one of these commands:
+
+scrollpv test.pipe
+scrollpv -pipe test.pipe
+scrollpv -pipe test.pipe -config test.config
+
+
+Common Viewer Commands
+----------------------
+
+The Java Scrollpipe Viewer can display scrollpipes in either scroll mode or
+resource mode depending on how the scrollpipe is setup.  There are some viewer
+functions that are common to both modes, these will be covered here.
+
+The application level menu contains 'File' and 'Window' pull down menus.  Here
+are what each contains and what they do:
+
+File:
+Open           -> 1 of 4 files can be opened here
+Close          -> 1 of 4 files can be closed here
+Screen Capture -> will bring up a options window for taking JPG screenshots
+Exit           -> will exit the viewer program
+
+Window:
+Tile Horizontally -> will arrange all non iconified open pipe files horizontally
+Tile Vertically   -> will arrange all non iconified open pipe files vertically
+Cascade Windows   -> will layout each window so the title bar is visible
+Info Bar          -> you can enable/disable the Info Bar and set its location
+
+
+Once a file has been opened it will have its own menu.  Both modes will have a
+'File and 'View' pull down menu.  Here is what each contains and what they do:
+
+
+File:
+Close                -> will close this file
+Reload File          -> will reload this file from disk
+Print window to File -> will bring up an options window for creating ASCII files 
+                        of that file's current display window contents
+Search               -> defunct
+Switch Modes         -> is used to switch between modes for .pipes that support it
+Tie Cycle Controls   -> is used when more than one file is open at a time to tie
+                        the cycle controls of one file to another
+Clear Cycle Controls -> used to remove cycle control setting for this file
+
+
+View:
+Enable Colors -> toggle on/off colors in the display window
+Show Cycles   -> toggle on/off showing the cycle count (use with tie cycle controls)
+Show Dots     -> toggle on/off showing the dots for cycles with no events
+Zoom          -> zoom in or out (or use shift-click for in and ctrl-click for out)
+                 when zooming with sliders enabled and visible the viewer will keep 
+                 the active sliders cross mark centered on screen
+Sliders       -> enable/disable/clear sliders and switch between the colors, up to 3
+                 sliders can be used at once but only the last moved on will show
+                 up in the Time Window in the Info Bar
+Manage Colors -> used to manually define event colors
+Change Time   -> used to collopse time by the interger given, events will be merged
+      Divider    into time base.  Useful for model using sub cycle clocking
+
+
+In either scroll or resource based view when you mouse over a symbol in the dispaly 
+window the Info Bar at the top will tell you what that event is.  If an event 
+has a red line above and below it that means that more than one event occurred 
+in that cycle.  Click on the symbol to see the other events.
+
+If you drag the mouse in the display window you will create a set of cross hairs.
+These can be placed at a point on the scrollpipe window and then used to measure 
+time between events by using the mouse and the slider location.  The times of the
+mouse and the last moved slider along with their difference will appear Time Window
+of the Info Bar.
+
+Here are some helpful key commands:
+
+arrow up              - scroll up one line
+arrow down            - scroll down one line
+arrow right           - scroll right one cycle
+arrow left            - scroll left one cycle
+page up               - scroll up 1/2 page
+page down             - scroll down 1/2 page
+shift-arrow up        - scroll up 1/2 page
+shift-arrow down      - scroll down 1/2 page
+shift-arrow right     - scroll right 1/2 page
+shift-arrow left      - scroll left 1/2 page
+home                  - jump to the top of the page
+end                   - jump to the bottom of the page
+shift-home            - jump to the first cycle
+shift-end             - jump to the last cycle
+shift-click           - zoom out one level
+ctrl-minus            - zoom out one level
+ctrl-click            - zoom in one level
+ctrl-plus             - zoom in one level
+ctrl-shift-click      - center view
+
+
+Scroll View
+-----------
+
+When viewing a scrollpipe in scroll mode a pull down menu called 'Scroll Mode' will
+appear on that file's menu bar.  Here is what it contains and what the options do:
+
+Scroll Mode:
+Symbol Tracking     -> will bring up an options menu for activating horizontal
+                       tracking on a specific event symbol, double clicking a
+                       symbol in the display window will track on it also
+Manage Side Bars    -> will bring up an options menu for choosing what info appears
+                       in the side bars on the far right of the display window
+Hide/Show Events    -> will bring up an options menu for setting which events to show
+Switch Display Type -> will bring up an options menu for selecting which display types
+                       will be shown in the display window (advanced function)
+Switch Dispaly Settings -> will bring up an options menu for changing the display
+                           seetings, mainly dealing with how asscoiated types are shown
+
+In scroll mode if you click on the display window in a place without a symbol a pop-up
+window will show the info about the instruction represented by that line.  You can
+also have this info permanently displayed for each line by using the 'Manage Side Bars'
+option.
+
+Play around with the 'Track on' controls.  It will automatically center the window
+on the first occurrence of the symbol you enter as you scroll up/down.  
+
+In scroll mode you can zoom out into 'Ultra Zoomed Out Mode'.  Here events are shown
+only by a colored pixel of varying size depending on the zoom level.  This mode is 
+helpful for seeing larger trends in the scrollpipe and locating interesting areas.
+When zoomed way out use the sliders to mark interesting parts of the scrollpipe and
+zoom back in and the viewer will keep the active slider centered in the display window.
+
+
+Resource View
+-------------
+
+When viewing a scrollpipe in resource mode a pull down menu called 'Resource Mode' will
+appear on that file's menu bar.  Here is what it contains and what the options do:
+
+Resource Mode:
+Highlight Characters     -> allows you to pick a group of characters to appear in bold in
+                            the display window
+Show Characters on Top   -> allows you to pick a character to appear on top when there
+                            are multiple events in a cycle
+Reorder Resources        -> allows you to reorder the resources on the right in the
+                            original order or base on one event's behavior, will 
+                            automatically set that character to be highlighted and on top
+Show/Hide Event Types    -> allows you to choose which event types are displayed
+Hide Unvisited Resources -> will hide all resources that are never entered
+
+

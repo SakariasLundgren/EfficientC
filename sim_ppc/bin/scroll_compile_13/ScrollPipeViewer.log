@@ -1,0 +1,257 @@
+GRISWELL v0.10 03/28/2001  First Release
+GRISWELL v0.10 03/28/2001  Made the side bars resizeable
+GRISWELL v0.10 04/05/2001  Added time fields to the control bar
+GRISWELL v0.10 04/06/2001  Added internal support of zooming in and out
+GRISWELL v0.10 04/09/2001  Changed symbol when there are more than one item in a cell
+GRISWELL v0.15 05/08/2001  Added search for Scrolling (resource and state still in the works),
+			   cleaned up problems with 'static' varibles, added built in state machine
+			   support, scroll mode sidebars can now be dynamically managed.
+GRISWELL v0.16 05/08/2001  In scroll mode milestone events can now be shown/hidden, added tracking
+			   in scroll mode.
+GRISWELL v0.20 05/10/2001  Combined .config and .arch, .id is now attached to the header of the .pipe 
+GRISWELL v0.25 05/14/2001  Added ability to switch modes, (not very fast)
+GRISWELL v0.30 05/14/2001  increased performance while switching modes
+GRISWELL v0.35 05/16/2001  fixed bug when extra line returns are present in a .id that has been attached 
+			   to a .pipe,  added ability to show or not show '.' in the main pipe,  added
+			   support for linking the horizontal controls of one pipe to another, add ability
+			   to show or hide the cycle count and sidebar headers (used when link controls),
+			   allowed the internal windows to be resized (be careful not the overlap them)
+GRISWELL v0.36 05/16/2001  only load libdiss.so if needed
+GRISWELL v0.40             put control bar in a JScrollPane so that when the program is run at a width less
+    	 		   then 1250, all the buttons will still be useable, buffered the input stream when
+                           reading in the config files, added DEBUG code, fixed arg passing in to set size
+GRISWELL v0.45 06/13/2001  fixed vertical paging for resource mode, only show scroll bar as need for control
+                           panel, stop the control bar from scrolling vertically
+GRISWELL v0.50 06/18/2001  made main pipe and down the default for searching, turned off scrolling when seaching
+			   Pressing F3 after a search will now research for the same string,combined
+			   getLenghtWidth() for all 3 modes, added support for reusing the Fsize object iff
+			   the pipe and config files being loaded are the same for a already opened file,
+			   Show/Hide Event Types are now sorted by name, fixed lastLine for resource
+GRISWELL v0.55 06/21/2001  Added 'Ultra Zoomed Out Mode' to scroll mode, to access just keep zooming out
+GRISWELL v0.60 06/22/2001  Buffered pipe file while loading it, speed increase of ~50%
+GRISWELL v0.61 06/26/2001  Added pop up window for use in scroll mode with all anotate info
+GRISWELL v0.62 06/27/2001  Made all Dialog windows modal (block user input to other windows), add code to
+			   to time the loading of files (chose at compile time)
+GRISWELL v0.63 07/06/2001  Added support for viewing SMT runs in scroll mode, fixed a few bugs in the resource
+			   reordering code, add the abitly to search for a resource name in resource mode, 			   added code to hide resources that have not been visited
+GRISWELL v0.64 07/11/2001  Made the SMT switching code work with the Mode switching code, add suport for viewing
+			   all trace in a SMT run at once
+GRISWELL v0.65 07/13/2001  Added color management code
+GRISWELL v0.66 07/20/2001  Made all components lightweight, added splitter bars for easy resizing, cleaned up
+			   PipeWindow class
+GRISWELL v0.67 07/23/2001  Added code to bring selected frame to front, add ability tile horiz or vert or cascade
+GRISWELL v0.68 08/03/2001  Fixed Resource Zoom problem, asked user if they want to switch to ultra-zoomed out mode,
+			   fixed a bug in TopCanvas.java
+GRISWELL v0.70 11/08/2001  Added command line args, -pipe, -config, -help, -wid, -len , -hider.  Added a relaod file
+			   button.
+GRISWELL v0.80 08/24/2002  Fixed command line args a bit ...
+GRISWELL v0.80 09/26/2002  added option in loadLinkedList to move associated visable heads under their parents.
+GRISWELL v0.80 10/02/2002  added option to load a second file at startup, also fixed viewable TagType defs
+GRISWELL v0.81 10/02/2002  fixed bug in resource mode introduce in v0.80
+GRISWELL v0.82 10/22/2002  1. added option in resource view mode to give all tag_types the same letter.
+                           use the RESOURCE_VIEW=value option in the .config file (value or type)
+                           2. addede option to auto select the .config is a .config file exists int the same
+                           dir as and with the same name as the .pipe file (ie m1.pipe will pickup m1.config)
+                           this works in auto load mode (ie -pipe) and when loading using the file menu ...
+                           3. changed how 'hide unvisted resources' works, now it will hide all resources not
+                           visited by a VISIBLE tag_type/value pair.  before it would hide resources visted by ANY pair.
+GRISWELL v0.83 10/24/2002  1. added SHOW_COLORS=[true:false] to .config to allow colors to be shown by default
+                           2. added code to display the resource description ib the upper InfoBox when mousing over a
+                           resource name ...
+                           3. added DEALLOC_MINUS_ONE to .setup section which will show symbols in resource mode
+                           from alloc to dealloc - 1 when set to 'true', default false (alloc to dealloc)
+GRISWELL v0.84 10/29/2002  1. move "Loading new section" to info window ...
+GRISWELL v0.85 12/09/2002  1. added VMX ops to DissIt (decoder) ...
+GRISWELL v0.86 02/28/2003  1. fixed addi register showning as hex values in DissIt
+                           2. added IBM Confidential to desktop title
+                           3. made sidebar colors all black
+GRISWELL v0.87 03/24/2003  1. fixed concat bug in pop up list
+                           2. added new zoom options; shift+click -> zoom out, ctrl+click -> zoom in
+                           3. double click on a symbol in Scroll mode and will auto track on it. double click on a '.'
+                              to disable
+                           4. hover ctrl and shift messages
+                           5. added print window option
+GRISWELL v0.88 03/26/2003  1. improved main window draw performance when color is enabled
+GRISWELL v0.89 03/27/2003  1. overhauled interface. removed tool window and moved all functions to menu per file open
+                           2. made info bar smaller and removable/position-able
+                           3. if no length or width is given -> auto sets frame size to systems max (small amount)
+                           4. added -max option to command line to load the viewer maximized
+                           5. resizing the main window will now resize the internal windows.
+                           6. fixed bug when tiling windows
+GRISWELL v0.90 03/31/2003  1. made highlight and onTop operate on tag_type and tag_value + char
+                           2. fixed manage sidebars bug from 0.89
+                           3. added lhzux to DissIT.java
+GRISWELL v0.91 04/16/2003  1. fixed a bug in the search function.
+                           2. fixed the constant offset of d-form loads (e.g. lwz) reported in the Mnemonic column.
+GRISWELL v0.92 04/22/2003  1. changed infobar layout
+GRISWELL v0.93 06/20/2003  1. removed IBM CONFIDENTIAL fm titles
+                           2. fixed decode problem with lfs, was lfd
+GRISWELL v0.94 07/10/2003  1. added command line support for loading a file without using -pipe, ie scrollpv my_pipe.pipe
+                           2. added error statement if invalid arg is given
+GRISWELL v0.95 09/25/2003  1. fixed some spelling problems
+                           2. disabled the search function
+GRISWELL v0.96 10/02/2003  1. reworked the "switch tag type" window to use a check box list
+                           2. made non-vieweable head's parents non viewable on child (for data prefetching)
+                           3. made popup annotate info window truncate at 90 chars when concatenating
+GRISWELL v0.97 10/13/2003  1. added code from Sawdey that fixes a problem in reading in the id file on some JVMs.
+GRISWELL v0.98 11/07/2003  1. fixed resource mode bug found by Tim Heil
+                           2. added abilty to give set of chars in resource mode to pick from when displaying based
+                              on type or value.
+GRISWELL v0.99 12/04/2003  1. added support for multiple sliders, red, blue and green.  Use view menu to access.
+GRISWELL v1.00 12/08/2003  1. added support for writing screen shots as JPG's as well as ASCII ... under file menu
+                           2. added clear sliders menu item to keep sliders enabled but just clear them from the screen
+GRISWELL v1.01 12/11/2003  1. removed abilty to write jpeg screen caputers of just one file ... caused core dump.
+                           2. added error checking code to manage side bars function in scroll mode to keep the user from 
+                              picking more that 10 items
+GRISWELL v1.02 12/16/2003  1. fixed some issues with sliders and ultra-zoom mode, sliders should stay when switching modes
+                              and will recenter on the active slider if it would leave the view.
+GRISWELL v1.03 01/15/2004  1. fixed small bug in zooming code
+GRISWELL v1.04 02/16/2004  1. fixed small bug -hider option
+GRISWELL v1.05 02/16/2004  1. fixed main files open menu strangeness
+GRISWELL v1.06 02/17/2004  1. fixed problem in associate
+GRISWELL v1.07 02/18/2004  1. added support in config files and in scroll mode menu to change display settings
+GRISWELL v1.08 02/19/2004  1. fixed a number of bugs in display setting chnages
+GRISWELL v1.09 02/24/2004  1. added support for clock_inc > 1 ... 
+                           2. fixed resource mode time divider bug
+GRISWELL v1.10 02/26/2004  1. fixed bug with time divider code
+GRISWELL v1.11 03/01/2004  1. fixed scrollbar problem
+                           2. made 'tie cycle controls' work across zoom modes
+GRISWELL v1.12 03/02/2004  1. tweaked scrollbar settings ... for some reason the scrollbars are firing 3 events for each push
+                              of the scrollbar buttons.  I have restored the update on drag lost in V1.11 and I have adjusted
+                              the increments of the scroll bars to account for the 3 events fired, Using the keyboard only 
+                              moves one event at a time.
+GRISWELL v1.13 03/03/2004  1. added ability to time shift events in scroll mode (use "time_shift,-1" in the events section of
+                              the config file ... where -1 can be anything within reason, Example:
+                              fetch;symbol,F;show,true;color,blue;time_shift,-1;description,"Fetch initiated"
+                           2. fixed some register decode functions (M1 only)
+GRISWELL v1.14 03/04/2004  1. fixed cycle update problem
+                           2. made it so that dragging the scrollbar will not update the screen until released (fixes multiple
+                              events being fired on scrollbar block increments)
+                           3. when dragging the 'time' scrollbar the 'Mouse Time' window in the 'Info Bar' will update with the
+                              cycle count of the sliders real-time position to make up for no real-time updates on drag)
+                           4. restored original increments to the scrollbars to pre V1.11 defaults
+GRISWELL v1.15 03/11/2004  1. made the warning statements more clear when a autoload fails due to a missing file
+                           2. added new input commands:
+                               a) press SHIFT and CTRL while clicking to center view
+                               b) press CTRL- to zoom out(either in the number pad or regular minus)
+                               c) press CTRL+ to zoom in (either in the number pad or regular plus (no shift needed) )
+GRISWELL v1.16 03/11/2004  1. added support for Utlra Zoomed Out Mode for resource based pipes
+GRISWELL v1.17 03/12/2004  1. fixed auto load to check for absolute path as well as relative path
+                           2. now honor color settings in Ultra Zoomed Out Mode
+                           3. remember color settings across zoom levels/modes
+                           4. in resource based mode, all transactions exit resource at end of pipe time instead of staying in 
+                              last resource for ever
+                           5. in resource based mode, in 'show/hide tag types' option pane the checkboxes reflect the current settings
+                           6. in resource based mode, added option in 'Reorder Resources'  under 'based on behavior' to automatically hide
+                              all other tag types
+                           7. give error message for functions not allowed in various modes when selected
+                           8. restored tag type defined colors in scroll view mode
+                           9. removed extra space at the bottom of files
+GRISWELL v1.18 03/15/2004  1. sliders will no longer lose their position when zooming near the edges of a file
+                           2. when zooming with an active slider visible it will always center on the cross hairs after zoom in/out
+                           3. fixed bug where ctrl-plus ect would only act on pipe 0
+                           4. fixed bug in resource ultra zoomed out mode where info was not drawn correctly when scrolling
+                           5. added a few more levels of zoom when zooming out before hitting ultra zoom out mode, even though the text
+                              becomes too small to read it helps bridge the gap between normal and ultra zoomed out mode.
+GRISWELL v1.19 03/17/2004  1. removed blank space at far right of files
+                           2. removed one level of normal zooming as it overlapped with the ultra zoomed out first level
+                           3. increased the number of zoom out levels in ultra zoom mode, previously it would stop when each pixel
+                              represented a single cycle, now it will zoom all the way out to 10 cycles per pixel.  In this mode all events
+                              that occur with that 10 cycle window are represented by the color of the last event in the cycle, this works 
+                              quite well and allows one to see 10,000 - 15,000 cycles at once depending on your screen resolution.
+GRISWELL v1.20 03/24/2004  1. when switching sliders the slider time will now automatically update with that sliders time
+                           2. added option on a per tag_type basis in scroll mode to be able to control if events are copied to its children
+                              and or parents when it is not visible, previously was for whole file only.  use move_child,[false|true] and
+                              move_parent,[false|true] in the config for that tag type entry
+                           3. added the abilty to convert .pipes into ascii files.  Here is the new help screen which should explain all:
+
+                           ScrollPipeViewer Version 1.2
+
+                           This program can operate either as a scrollpipe viewer with a GUI or as a conversion
+                           program to create ASCII scrollpipes.  Below are the command line args for both modes
+                           as well as the args they share:
+
+                           -------------------- Common Options ---------------------|
+                            -pipe         value - Specifies the 1st .pipe file to load, if no -config is
+                                                  given then the config filename is assumed  to be the same
+                                                  as the the .pipe file but with a .config suffix.
+                            -config       value - Specifies the 1st .config file to load.
+                            -pipe2        value - Specifies the 2nd .pipe file to load, if no -config is
+                                                  given then the config filename is assumed  to be the same
+                                                  as the the .pipe file but with a .config suffix.
+                            -config2      value - Specifies the 2nd .config file to load.
+                            -help               - This help screen.
+                           
+                           -------------------- GUI Options ------------------------|
+                            -wid          value - The width of the program in pixels (default = system max - 75).
+                            -len          value - The length of the program in pixels (default = system max - 60).
+                            -max                - Loads the viewer maximized.
+                            -hider              - Will automatically 'hide unvisited resources' after loading
+                                                  a file when in resource mode
+                           
+                           -------------------- ASCII Conversion Options -----------|
+                           
+                           |---- Common Options ----|
+                            -out_file     value - Specifies the output filename to be written, suppresses the GUI.
+                            -overwrite          - Will overwrite output if it exists instead of exiting.
+                            -cycle_wid    value - Specifies the width in cycles of the output file, default 80 and
+                                                  must be a multiple of 10
+                           
+                            -cycle_offset value - Controls the cycle offset at which the file starts from, use this to
+                                                  show true cycle time instead of the time relative to the start of the
+                                                  begin of the pipe, default 0 must be >= 10.
+                            -cycle_repeat value - If > 0 will cause the cycle info to be repeated in at interval not
+                                                  exceeding this value, default 0.
+                           
+                            -print_key    value - Value can be true/false, when true a key will be written, default true.
+                            -skinny             - Will remove extra spacing in side bar columns to reduce file width at
+                                                  the expense of readability.
+                           
+                            -multi_events value - Controls how multiple events in the same cycle are handled, options are:
+                                                   last  - The last event in a cycle will be printed, default.
+                                                   first - The first event in a cycle will be printed.
+                                                   all   - All events in a cycle will be printed by using multiple lines.
+                                                   *Note: when using first or last a '+' and not a '|' will be printed at the
+                                                   end of each line where there were multiple events in the same cycle.
+                           
+                           |---- Resource Mode ----|
+                            -show_all           - Will show all resources for each block of time instead of the default
+                                                  mode where only resources with activity in a given block of time are shown.
+                            -hide_empty         - Will hide resources who are never used in the whole file from being printed,
+                                                  use when using the -show_all_resources flag to hide unvisited resources.
+                           
+                           Author: John Griswell, IBM Austin
+                           
+GRISWELL v1.21 04/02/2004  1. fixed bug in ultra zoomed out resource mode
+GRISWELL v1.22 05/06/2004  1. added null pointer cheking of undefined event types for milestones
+                           2. fixed the decoding of the VXOR op
+GRISWELL v1.23 05/11/2004  1. fixed associate bug
+GRISWELL v1.24 05/24/2004  1. added code to check bounds on resource name to ensure with in bounds
+                           2. increaded side bars width form 40 to 60
+GRISWELL v1.25 05/28/2004  1. fixed mnemonic decoder problems and added new entries
+GRISWELL v1.26 06/08/2004  1. fixed mnemonic decoder of vmaddfp
+                           2. added code to ignore events with missing begin
+GRISWELL v1.27 09/09/2004  1. fixed bug in scroll mode where the time could be shifted
+GRISWELL v1.28 10/05/2004  1. updated mnemonic decoder with new instructions
+GRISWELL v1.29 10/12/2004  1. fixed problem when a menu of internal frame overlapped a frame the contents would not update
+                           2. renamed the 'Control Panel' to 'Info Bar'.
+GRISWELL v1.30 10/14/2004  1. fixed problem with generateing ascii pipes when the unit name was very large
+GRISWELL v1.31 11/05/2004  1. fixed issue with ASCII conversion when heads are not destoryed
+GRISWELL v1.32 12/13/2004  1. added option to give color (for event_type and tag_type) as a RGB vault (use color=RGB_x_x_x; where x is 0-255)
+GRISWELL v1.33 12/14/2004  1. removed all Open Source code (only had one class) and replaced it with built in Java components.  This code
+                              managed the 'side bars'.  They will now appear slightly different and behave in a slightly different way when
+                              resizing but the overall functionality is the same.
+                           2. added one touch close open buttons on new side bar sliders
+                           3. new side bar sliders are now sticky and will remember their position when zooming.
+GRISWELL v1.34 01/12/2005  1. fixed the decoding of crand.
+GRISWELL v1.35 04/13/2005  1. added support for viewing gzipped .pipe files (must end in *.pipe.gz)
+                           2. added support for loading  upto 4 files on the command line
+                           3. when loading more than 2 files the default window layout will switch from tile horizontally to cascade
+GRISWELL v1.36 04/29/2005  1. added option to set the background color of a .pipe file in the .config file using the keyword BACKGROUND in
+ 		              the .setup section.  It can be one of the defined colors or as a RGB vaule (use BACKGROUND=RGB_x_x_x where x is 0-255).
+                              The defined colors are: black, blue, cyan, red, green, magenta, white, yellow, orange
+                              example, in the .setup section:  BACKGROUND=white
+GRISWELL v1.37 05/16/2005  1. added command line option, -ignoreErrors, that will ignore the 'Missing end bit' Error that is associated with a
+                              .pipe not being closed properly.
+GRISWELL v1.38 06/06/2005  1. increased the size of the side bar windows underlaying array from 60 to 100 chars.
+GRISWELL v1.45 06/07/2005  1. fixed bug with ascii output when using concat

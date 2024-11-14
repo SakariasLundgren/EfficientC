@@ -1,0 +1,433 @@
+# © Copyright IBM Corp. 2018
+IBM CONFIDENTIAL - IBM CONFIDENTIAL - IBM CONFIDENTIAL - IBM CONFIDENTIAL
+
+SIM_GX
+--------
+
+Sim_GX is a core timer for the Power series of processors developed by IBM.  It is
+IBM confidential and should only be used by those who are authorized by IBM to do 
+so.
+
+
+INSTALLATION
+------------
+
+Auto Install
+------------
+
+To use the auto install script run 'install_sim_gX' in the directory in which the 
+package was untared.  If it fails use the manual install directions below.
+
+
+Manual Install
+--------------
+
+1) First edit the perl scripts 'run_timer', 'xcoff2qt', 'ezravp' in the /bin directory.  
+Change this line in both scripts:
+   # SET THIS TO THE CORRECT BASE DIRECTORY
+-> $base = "/.../austin.ibm.com/fs/home/griswell/gp_work/dev/perl/sim_gX";
+To point to where ever the package has been installed. 
+
+
+2) Also edit the scrollpv file in the /bin directory. Change this line
+   # SET THIS TO THE CORRECT BASE DIRECTORY
+-> BASE_INSTALL=/.../austin.ibm.com/fs/proj/p20/gp/perf/work/griswell/dev/perl/sim_g5
+
+   Then set his line to point to the install of java 1.3 or 1.4:
+-> BIN_JAVA=/usr/java14/bin/java
+
+   Then if you are using java 1.3 make sure that SCROLLPIPE_HOME reads:
+-> SCROLLPIPE_HOME=${BASE_INSTALL}/bin/scroll_compile_13
+
+   Or if you are using java 1.4 make sure that SCROLLPIPE_HOME reads:
+-> SCROLLPIPE_HOME=${BASE_INSTALL}/bin/scroll_compile_14
+
+
+3) You may also need to change the first line:
+-> #!/usr/bin/perl5
+In 'run_timer', 'separate_scroll', 'xcoff2qt' and 'ezravp' (found in /bin) to point to
+a known copy of perl5 (or perl).
+
+
+4) You may also want to add the /bin directory to your PATH 
+(e.g. PATH=$PATH:/where/you/installed/sim_gX/bin) so you can run the timer from any
+directory.  Run_timer will place the results files in the directory from which it was 
+invoked.
+
+
+
+RUNNING THE TIMER
+-----------------
+
+Running the timer is quite easy.  All you will need is a trace file 
+(*.tt6e, *.fF or *.qt) or if running on AIX and executable and a basic understanding
+of how processors work.
+
+To see the usage statement for 'run_timer', which is the perl script that takes in
+options from the user and runs the timer accordingly, just issue 'run_timer' with 
+no arguments.
+
+The timer can output many files per run.  The results file, 'run_name.results'
+where 'run_name' is an argument to run_timer, will always be generated.  The
+results file contains detailed statistics about the run.  
+
+
+If the flag '-cmpl_trace' is given a completion trace will be written to 
+'run_name.cmpl_trace.gz'.  By default the completion trace will trace all 
+instructions run on the timer.  One can use the '-cmpl_limit' arg to alter the
+range of instructions that are printed and the '-cmpl_filter' arg to filter which
+events can cause an instruction to be printed (see usage).  The trace will look like this:
+
+# M1 Architected Instruction Completion Trace Key:
+#
+# ARCH_ID   - Architected instruction number (starts at 1)
+# I-EA      - 64 bit Instruction Effective Address
+# I-VSID    - 64 bit (48 bit valid) Instruction Virtual Segement Id
+# D-EA      - 64 bit Data Effective Address
+# D-VSID    - 64 bit (48 bit valid) Data Virtual Segement Id
+# BT        - Number of bytes transfered by instruction
+# IT        - Instruction translation source, values: 1=ERAT 2=TLB 3=L2 4=L3 5=MEM
+# ID        - Instruciton data source, values: 1=L1 2=L2 3=L3 4=MEM
+# DT        - Load/Store translation source, values: 1=ERAT 2=TLB 3=L2 4=L3 5=MEM
+# DD        - Load/Store data source, values: 1=L1 2=L1.5 3=L2 4=L3 5=MEM 6=STORE_MISSED_L1 7=STORE_FOWARD
+# BK        - Branch Type, values; 0=NON_BRACH,1=IMMEDIATE,2=TO_LINK/COUNT,3=AND_LINK
+# BG        - Branch Guess, values; 0=CORRECT 1=WRONG 2=INSERTED
+# IMAGE     - Instruction Image in Hex
+# TH        - Thread bit, values: 0,1
+# IP        - Instruction Page Size, values: 0=SMALL 1=MEDIUM 2=LARGE
+# DP        - Data Page Size, values: 0=SMALL 1=MEDIUM 2=LARGE
+# FL        - Load/Store op caused a flush, values: 0=NO_FLUSH 1=FLUSH
+# RJ        - Load/Store op suffered a non-translate reject, values: 0=NO_REJECT 1=REJECT
+# CMPL_TIME - Completion Time
+# 
+# 
+# ARCH_ID       I-EA              I-VSID            D-EA              D-VSID       IMAGE     BT   IT   ID   DT   DD   BK   BG   TH   IP   DP   FL   RJ   CMPL_TIME 
+#--------- ----------------- ----------------- ----------------- ----------------- -------- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- -----------
+         1 00000000 0000b468 00000000 00000000 00000000 0009a70c 00000000 00000000 9064008c   4    2    4    2    5    0    0    0    0    0    0    0         314 
+         2 00000000 0000b46c 00000000 00000000 00000000 0000f0c4 00000000 00000000 4e800020   0    2    4    0    0    2    1    0    0    0    0    0         314 
+         3 00000000 0000f0c4 00000000 00000000 00000000 e60023a0 00000000 00008004 a0f70060   2    2    4    1    4    0    0    0    0    0    0    0         919 
+
+
+If running the timer in execution mode a file named 'run_name.aria_out' will be
+created.  It contains the information printed out by the program making a trace
+of your executable.
+
+
+The last type of output file that can be generated is a scrollpipe file.  By using
+the flags '-scroll_pipe', '-scroll_begin', -scroll_end' and 'scroll_type' in the 
+manner described above one can generate a scrollpipe over a desired region.  The 
+scrollpipe will be written to 'run_name.scroll' or 'run_name.pipe' depending on the
+scroll_type picked.  Note that scrollpipes can get very large and should be used 
+to look at a few thousand instructions at a time.  One can use the completion trace
+to zero-in on windows of interest and then take a small scrollpipe around that 
+window.  Also note that scrolling will slow the execution of the timer (even during
+the sections where scrolling information is not being written).
+
+
+*NOTE:
+
+The ability to take a trace on the fly from an executable and run it through the
+timer will only work in AIX and VMX ops are not supported.  Also the code used to
+provide this functionality is provided 'AS IS' and is not supported. 
+
+
+
+RUNNING THE JAVA SCROLLPIPE VIEWER
+----------------------------------
+
+Once you have made a run and generated a .pipe and .config file you can use the Java
+scrollpipe viewer to look at them.  Be warned that very large .pipe files will take
+a long time to load as the entire file must be scanned first.  Keeping to ~5000 
+cycles is a good idea.
+
+
+There are now 3 viewers that can be used.  The new more robust one is an Eclipse
+plug-in and is part of the Visual Performance Analyzer package which can be found here:
+http://web.cs.opensource.ibm.com/www/vpa/index.html
+
+Install instructions:
+http://web.cs.opensource.ibm.com/www/vpa/Installation.htm
+
+Usage guide:
+http://web.cs.opensource.ibm.com/www/vpa/UsePipeAnalyzer.htm
+
+There is a more modern viewer called Jviewer which can be used like so:
+
+Jviewer name.pipe
+
+There is also a standalone java app that is included. Here is the usage statement 
+for the standalone viewer included with the install:
+
+>scrollpv -help
+ScrollPipeViewer Version 1.2
+
+This program can operate either as a scrollpipe viewer with a GUI or as a conversion
+program to create ASCII scrollpipes.  Below are the command line args for both modes
+as well as the args they share:
+
+-------------------- Common Options ---------------------|
+ -pipe         value - Specifies the 1st .pipe file to load, if no -config is
+                       given then the config filename is assumed  to be the same
+                       as the the .pipe file but with a .config suffix.
+ -config       value - Specifies the 1st .config file to load.
+ -pipe2        value - Specifies the 2nd .pipe file to load, if no -config is
+                       given then the config filename is assumed  to be the same
+                       as the the .pipe file but with a .config suffix.
+ -config2      value - Specifies the 2nd .config file to load.
+ -help               - This help screen.
+
+-------------------- GUI Options ------------------------|
+ -wid          value - The width of the program in pixels (default = system max - 75).
+ -len          value - The length of the program in pixels (default = system max - 60).
+ -max                - Loads the viewer maximized.
+ -hider              - Will automatically 'hide unvisited resources' after loading
+                       a file when in resource mode
+
+-------------------- ASCII Conversion Options -----------|
+
+|---- Common Options ----|
+ -out_file     value - Specifies the output filename to be written, suppresses the GUI.
+ -overwrite          - Will overwrite output if it exists instead of exiting.
+ -cycle_wid    value - Specifies the width in cycles of the output file, default 80 and
+                       must be a multiple of 10
+
+ -cycle_offset value - Controls the cycle offset at which the file starts from, use this to
+                       show true cycle time instead of the time relative to the start of the
+                       begin of the pipe, default 0 must be >= 10.
+ -cycle_repeat value - If > 0 will cause the cycle info to be repeated in at interval not
+                       exceeding this value, default 0.
+
+ -print_key    value - Value can be true/false, when true a key will be written, default true.
+ -skinny             - Will remove extra spacing in side bar columns to reduce file width at
+                       the expense of readability.
+
+ -multi_events value - Controls how multiple events in the same cycle are handled, options are:
+                        last  - The last event in a cycle will be printed, default.
+                        first - The first event in a cycle will be printed.
+                        all   - All events in a cycle will be printed by using multiple lines.
+                        *Note: when using first or last a '+' and not a '|' will be printed at the
+                        end of each line where there were multiple events in the same cycle.
+
+|---- Resource Mode ----|
+ -show_all           - Will show all resources for each block of time instead of the default
+                       mode where only resources with activity in a given block of time are shown.
+ -hide_empty         - Will hide resources who are never used in the whole file from being printed,
+                       use when using the -show_all_resources flag to hide unvisited resources.
+
+Author: John Griswell, IBM Austin
+
+
+The rest of this file is devoted to the GUI as the ASCII conversion function is straight forward.
+
+Loading a File
+--------------
+
+So if you made a run with a run_name of 'test' you would be left with a test.pipe
+and test.config file which you could auto load with any one of these commands:
+
+scrollpv test.pipe
+scrollpv -pipe test.pipe
+scrollpv -pipe test.pipe -config test.config
+
+
+Viewer Commands
+---------------
+
+The application level menu contains 'File' and 'Window' pull down menus.  Here
+are what each contains and what they do:
+
+File:
+Open           -> 1 of 4 files can be opened here
+Close          -> 1 of 4 files can be closed here
+Screen Capture -> will bring up a options window for taking JPG screenshots
+Exit           -> will exit the viewer program
+
+Window:
+Tile Horizontally -> will arrange all non iconified open pipe files horizontally
+Tile Vertically   -> will arrange all non iconified open pipe files vertically
+Cascade Windows   -> will layout each window so the title bar is visible
+Info Bar          -> you can enable/disable the Info Bar and set its location
+
+
+Once a file has been opened it will have its own menu.  Both modes will have a
+'File and 'View' pull down menu.  Here is what each contains and what they do:
+
+
+File:
+Close                -> will close this file
+Reload File          -> will reload this file from disk
+Print window to File -> will bring up an options window for creating ASCII files 
+                        of that file's current display window contents
+Search               -> defunct
+Switch Modes         -> is used to switch between modes for .pipes that support it
+Tie Cycle Controls   -> is used when more than one file is open at a time to tie
+                        the cycle controls of one file to another
+Clear Cycle Controls -> used to remove cycle control setting for this file
+
+
+View:
+Enable Colors -> toggle on/off colors in the display window
+Show Cycles   -> toggle on/off showing the cycle count (use with tie cycle controls)
+Show Dots     -> toggle on/off showing the dots for cycles with no events
+Zoom          -> zoom in or out (or use shift-click for in and ctrl-click for out)
+                 when zooming with sliders enabled and visible the viewer will keep 
+                 the active sliders cross mark centered on screen
+Sliders       -> enable/disable/clear sliders and switch between the colors, up to 3
+                 sliders can be used at once but only the last moved on will show
+                 up in the Time Window in the Info Bar
+Manage Colors -> used to manually define event colors
+Change Time   -> used to collopse time by the interger given, events will be merged
+      Divider    into time base.  Useful for model using sub cycle clocking
+
+
+Scroll Mode:
+Symbol Tracking     -> will bring up an options menu for activating horizontal
+                       tracking on a specific event symbol, double clicking a
+                       symbol in the display window will track on it also
+Manage Side Bars    -> will bring up an options menu for choosing what info appears
+                       in the side bars on the far right of the display window
+Hide/Show Events    -> will bring up an options menu for setting which events to show
+Switch Display Type -> will bring up an options menu for selecting which display types
+                       will be shown in the display window (advanced function)
+Switch Dispaly Settings -> will bring up an options menu for changing the display
+                           seetings, mainly dealing with how asscoiated type are shown
+
+
+Once a file as been loaded when you mouse over a symbol in the dispaly 
+window the Info Bar at the top will tell you what that event is.  If an event 
+has a red line above and below it that means that more than one event occurred 
+in that cycle.  Click on the symbol to see the other events.
+
+If you drag the mouse in the dispaly window you will create a set of cross hairs.
+These can be placed at a point on the scrollpipe window and then used to measure 
+time between events by using the mouse and the slider location.  The times of the
+mouse and the last moved slider along with their difference will appear Time Window
+of the Info Bar.
+
+If you click on the display window in a place without a symbol a pop-up window 
+will show the info about the instruction represented by that line.  You can also have 
+this info permanently displayed for each line by using the 'Manage Side Bars' option.
+
+Play around with the 'Track on' controls.  It will automatically center the window
+on the first occurrence of the symbol you enter as you scroll up/down.  
+
+You can zoom out into 'Ultra Zoomed Out Mode'.  Here events are shown only by a 
+colored pixel of varying size depending on the zoom level.  This mode is 
+helpful for seeing larger trends in the scrollpipe and locating interesting areas.
+When zoomed way out use the sliders to mark interesting parts of the scrollpipe and
+zoom back in and the viewer will keep the active slider centered in the display window.
+
+
+Here are some helpful key commands:
+
+arrow up              - scroll up one line
+arrow down            - scroll down one line
+arrow right           - scroll right one cycle
+arrow left            - scroll left one cycle
+page up               - scroll up 1/2 page
+page down             - scroll down 1/2 page
+shift-arrow up        - scroll up 1/2 page
+shift-arrow down      - scroll down 1/2 page
+shift-arrow right     - scroll right 1/2 page
+shift-arrow left      - scroll left 1/2 page
+home                  - jump to the top of the page
+end                   - jump to the bottom of the page
+shift-home            - jump to the first cycle
+shift-end             - jump to the last cycle
+shift-click           - zoom out one level
+ctrl-click            - zoom in one level
+ctrl-minus            - zoom out one level
+ctrl-click            - zoom in one level
+ctrl-plus             - zoom in one level
+ctrl-shift-click      - center view
+
+
+GENERATING INSTRUCTIONS TRACES
+------------------------------
+
+AIX - Mambo
+-----------
+
+Mambo is an architectural POWER simulator that can be used to create qtraces from code 
+samples.  Please vist here for info:
+
+http://mambos4.raleigh.ibm.com/mambo-bin/date.cgi
+
+
+LINUX PPC - Use ITrace or Mambo
+----------------------
+
+ITrace can be used to create instruction traces on PPC Linux machine.  It is released 
+with the Performance Inspector which can be found here:
+
+http://sourceforge.net/projects/perfinsp
+
+
+Linux X86 - Huh?
+----------------
+It does not make sense to try and take a trace of X86 code to run a on a Power based model.
+The timer can be run on X86 hardware but the trace needs to come from a PPC based machine.
+
+
+
+USING run_reader
+----------------
+A tool called run_reader is included in this package.  It is a standalone trace reader.
+It will reader traces in fF,qt or tt6e formats and print the contents of the trace
+depending on the arguments.  Here is the usage statement:
+
+|----> run_reader <----|
+
+Usage:
+ run_reader workload run_name [ OPTIONAL ARGS ]
+
+where:
+    ---------- [REQUIRED] ---------------------------------------------------------
+    workload      - should be a trace in one of these formats: tt6e,fF,qt.
+                    it can be gzipped (.gz) or bzipp2ed (.bz2).
+                    examples: my_trace.tt6e or my_trace.fF.bz2 ...
+                    *NOTE: workload must be fully qualified or in the current dir.
+    run_name      - the name of this run which will be used when generating the 
+                    output files (e.g. 'run_name.results').
+    
+    ---------- [OPTIONAL] ---------------------------------------------------------
+
+                  -------- [OUTPUT CONTROL] ---------------------------------------
+-expand           - expand architected ops into internal ops (iops)
+-noprint          - just parse trace and don't print each instruction
+-start            - instruciton # at which to start printing instructions
+-end              - instruction # at which to stop printing instrucitons
+-tags             - read trace in tags active mode
+-noaddr           - suppress instruction address information
+-flags            - show instruciton flag information
+
+Author: John Griswell
+
+|----> run_reader <----|
+
+
+
+KNOWN BUGS
+----------
+
+1) There must be a branch some where in the trace, if not the timer will exit
+    with an error code.
+2) The i-address will be incorrect until the first taken branch.
+3) The first branch must appear in the first 4500 instructions, if not the timer
+    will exit with an error code.
+
+
+*NOTES:
+
+Feel free to modify the 2 perl scripts used here, 'run_timer' and 
+'separate_scroll', if the need arises.  One may need to do this if they want to
+pipe the output from the timer during execution to another process for either 
+scroll viewing or analyzing the completion trace.  All output (including the run
+results, completion trace and scrollpipe info) are sent to stdout.  By modifying
+'run_timer' to pipe the output to a process that splits the outputs one can 
+achieve the above scenario.  Study 'separate_scroll' to see how this separation 
+of the output is done.
+
+
+
+IBM CONFIDENTIAL - IBM CONFIDENTIAL - IBM CONFIDENTIAL - IBM CONFIDENTIAL
